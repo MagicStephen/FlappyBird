@@ -1,0 +1,15 @@
+body { 
+  min-height: 100vh; 
+  margin: 0;
+}
+
+#play-ground{
+  width: 350px;
+  height: 350px;
+  
+  border: 1px solid red;
+  position: fixed;
+
+  top: calc(50% - 175px);
+  left: calc(50% - 175px);
+}
