@@ -6,7 +6,6 @@ export class Bird {
     private width: number;
     private height: number;
 
-    private fallSpeed: number;
     private jumpSpeed: number;
 
     constructor(x: number, y: number, width: number, height: number, fallSpeed: number, jumpSpeed: number) {
@@ -16,7 +15,6 @@ export class Bird {
         this.width = width;
         this.height = height;
 
-        this.fallSpeed = fallSpeed;
         this.jumpSpeed = jumpSpeed;
     }
 
@@ -24,8 +22,8 @@ export class Bird {
         this.y -= this.jumpSpeed * 0.3;
     }
 
-    public fall(){
-        this.y += this.fallSpeed * 0.2;  
+    public fall(velocity: number, deltaTime: number){
+        this.y += velocity * deltaTime;  
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
@@ -33,16 +31,24 @@ export class Bird {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    public get birdJumpSpeed(): number {
+    get birdJumpSpeed(): number {
         return this.jumpSpeed * 0.3;
     
     }
 
-    public get birdY(): number {
+    get birdY(): number {
         return this.y;
     }
 
-    public get birdH(): number {
+    get birdX(): number {
+        return this.x;
+    }
+
+    get birdHeight(): number {
         return this.height;
+    }
+
+    get birdWidth(): number{
+        return this.width;
     }
 }
