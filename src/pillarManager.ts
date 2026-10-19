@@ -2,13 +2,10 @@ import { Pillar } from "./pillar";
 
 export class PillarManager{
 
-    private pillars: Pillar[];
-    private nextIdx: number;
+    private pillars: Pillar[] = [];
+    private nextIdx: number = 0;
     
-    constructor(){ 
-        this.pillars = []
-        this.nextIdx = 0;
-    }
+    constructor(){}
 
     update(dt: number, canvasWidth:number, canvasHeight:number){
         this.trySpawn(canvasWidth, canvasHeight);
@@ -16,13 +13,23 @@ export class PillarManager{
         this.cleanOffScreen(); 
     }
 
-    checkCollidePillar(x: number, y: number, width: number, height: number): boolean {
-        return this.pillars[this.nextIdx].collideWith(x, y, width, height)
+    checkCollide(x: number, y: number, width: number, height: number): boolean {
+        const pillar = this.pillars[this.nextIdx];
+
+        // top/bottom bird boundaries
+        if (
+            x + width >= pillar.x && y <= pillar.gapY - pillar.gap / 2 ||
+            x + width >= pillar.x && y + height >= pillar.gapY + pillar.gap / 2
+        ){
+            return true;
+        }
+        
+        return false;
     }
 
     checkPastPillar(x: number, width: number): boolean {
 
-        if(x - width/2 > this.pillars[this.nextIdx].pillarX + this.pillars[this.nextIdx].pillarWidth/2){
+        if(x - width/2 > this.pillars[this.nextIdx].x + this.pillars[this.nextIdx].width/2){
             this.nextIdx++;
             return true; 
         }
@@ -39,7 +46,7 @@ export class PillarManager{
     private trySpawn(canvasWidth:number, canvasHeight:number): void {
         if (
             this.pillars.length === 0 || 
-            this.pillars[this.pillars.length - 1].pillarX + this.pillars[this.pillars.length - 1].pillarWidth/2 + 150 < canvasWidth) 
+            this.pillars[this.pillars.length - 1].x + this.pillars[this.pillars.length - 1].width/2 + 150 < canvasWidth) 
         {
             this.pillars.push(new Pillar(canvasWidth, 50, canvasHeight, 100, Math.random() * (canvasHeight - 200) + 100));
         }
@@ -50,7 +57,7 @@ export class PillarManager{
     }
 
     private cleanOffScreen(): void {
-        if(this.pillars[this.nextIdx].pillarX + this.pillars[this.nextIdx].pillarWidth < 0) {
+        if(this.pillars[this.nextIdx].x + this.pillars[this.nextIdx].width < 0) {
             this.pillars.shift();
             this.nextIdx--;
         };

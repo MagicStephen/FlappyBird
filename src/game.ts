@@ -4,12 +4,12 @@ import { PillarManager } from "./pillarManager";
 export class Game{
 
     private ctx: CanvasRenderingContext2D;
-    
+
     private bird: Bird;
     private pillarManager: PillarManager;
     
     private lastTime: number = 0;
-    private gravity: number = 100;
+    private gravity: number = 500;
 
     private score: number = 0;
     private _gameOver: boolean = false;
@@ -44,7 +44,13 @@ export class Game{
         this.lastTime = currentTime;
 
         this.bird.update(deltaTime, this.gravity);
+        this.pillarManager.update(deltaTime, this.ctx.canvas.width, this.ctx.canvas.height);
+
         this.checkBirdCollision();
+
+        if(this.pillarManager.checkPastPillar(this.bird.birdX, this.bird.birdWidth)){
+            this.score++;
+        }
 
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.draw();
@@ -99,6 +105,9 @@ export class Game{
     checkBirdCollision(): void {
         if (this.bird.birdY + this.bird.birdHeight >= this.ctx.canvas.height) {
             this.gameOver();
+        }
+        else if(this.pillarManager.checkCollide(this.bird.birdX, this.bird.birdY, this.bird.birdWidth, this.bird.birdHeight)){
+            this.gameOver();  
         }
     }
 

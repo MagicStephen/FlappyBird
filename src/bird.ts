@@ -20,7 +20,7 @@ export class Bird {
         this.height = height;
 
         this.minAngle = -25 * Math.PI / 180;
-        this.maxAngle = 90 * Math.PI / 180;
+        this.maxAngle = 120 * Math.PI / 180;
     }
 
     public jump(){
