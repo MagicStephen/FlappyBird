@@ -41,7 +41,6 @@ export class Game{
 
     gameLoop = (currentTime: number): void => {
         const deltaTime = (currentTime - this.lastTime) / 1000;
-        this.lastTime = currentTime;
 
         this.bird.update(deltaTime, this.gravity);
         this.pillarManager.update(deltaTime, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -55,47 +54,12 @@ export class Game{
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.draw();
 
+        this.drawScore();
+
+        this.lastTime = currentTime;
         if(!this._gameOver) requestAnimationFrame(this.gameLoop);
     };
 
-
-    /*
-    requestAnimationFrameHandler(currentTime: number = 0): void {
-        
-        const deltaTime = (currentTime - this.lastTime) / 1000;
-
-        this.bird.update(deltaTime, this.gravity);
-
-        if(this.started) this.checkBirdCollision();
-
-        this.canvas.cleanCanvas();
-        this.draw();
-       
-        /*
-        this.pillarManager.update(deltaTime, this.canvas.canvasWidth, this.canvas.canvasHeight);
-        
-        const hit = this.pillarManager.checkCollidePillar(this.bird.birdX, this.bird.birdY, this.bird.birdWidth, this.bird.birdHeight)
-
-        if(this.pillarManager.checkPastPillar(this.bird.birdX, this.bird.birdWidth)){
-            this.score++;
-        }
-
-        this.canvas.cleanCanvas();
-        this.draw();
-
-        if (hit) {
-            this.gameOver();
-            return;
-        }
-
-        this.canvas.canvasElement.getContext("2d")!.font = "48px serif";
-        this.canvas.canvasElement.getContext("2d")!.fillStyle = 'black';        
-        this.canvas.canvasElement.getContext("2d")!.fillText(`${this.score}`, this.canvas.canvasWidth/2, this.canvas.canvasHeight/2);
-       
-        this.lastTime = currentTime;
-        requestAnimationFrame(this.requestAnimationFrameHandler.bind(this));
-    }
-    */
     keyboardEventHandler(event: KeyboardEvent): void {
         if (event.code === "Space") {
             this.bird.jump();
@@ -109,6 +73,14 @@ export class Game{
         else if(this.pillarManager.checkCollide(this.bird.birdX, this.bird.birdY, this.bird.birdWidth, this.bird.birdHeight)){
             this.gameOver();  
         }
+    }
+
+    drawScore(): void{
+        this.ctx.font = "bold 48px sans-serif";
+        this.ctx.fillStyle = "white";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "top";
+        this.ctx.fillText(String(this.score), this.ctx.canvas.width / 2, 20);
     }
 
     gameOver(): void{
