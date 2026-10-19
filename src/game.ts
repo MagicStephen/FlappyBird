@@ -58,7 +58,7 @@ export class Game{
 
         this.checkBirdCollision();
 
-        if(this.pillarManager.checkPastPillar(this.bird.birdX, this.bird.birdWidth)){
+        if(this.pillarManager.checkPastPillar(this.bird.birdX)){
             this.score++;
         }
 
