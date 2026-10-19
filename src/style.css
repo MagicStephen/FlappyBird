@@ -14,7 +14,12 @@ body {
     position: relative;
 }
 
-#game-over-scene, #start-game-scene {
+#play-canvas {
+    display: block;         
+    background-color:  #70c5ce;
+}
+
+.scene{
     position: absolute;
     inset: 0;
     z-index: 10;
@@ -24,7 +29,7 @@ body {
     align-items: center;
 }
 
-#game-over-scene[hidden], #start-game-scene[hidden]{
+.scene[hidden]{
     display: none;
 }
 

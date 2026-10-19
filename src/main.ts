@@ -1,3 +1,5 @@
 import {Game} from "./game"; 
 
-const game = new Game(document.getElementById("play-ground") as HTMLDivElement);
+const canvas = document.getElementById("play-canvas") as HTMLCanvasElement;
+
+new Game(canvas.getContext("2d")!);

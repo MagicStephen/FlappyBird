@@ -1,12 +1,10 @@
-import { Canvas } from "./canvas";
 import { Bird } from "./bird";
 import { PillarManager } from "./pillarManager";
 
 export class Game{
 
-    private playGround: HTMLDivElement;
-
-    private canvas: Canvas;
+    private ctx: CanvasRenderingContext2D;
+    
     private bird: Bird;
     private pillarManager: PillarManager;
     
@@ -16,10 +14,9 @@ export class Game{
     private score: number = 0;
     private _gameOver: boolean = false;
 
-    constructor(playGround: HTMLDivElement) {
-        this.playGround = playGround;
-        this.canvas = new Canvas(playGround.clientWidth, playGround.clientHeight);
+    constructor(ctx: CanvasRenderingContext2D) {
 
+        this.ctx = ctx;
         this.bird = new Bird(10, 25, 20, 20);
         this.pillarManager = new PillarManager();
 
@@ -31,9 +28,8 @@ export class Game{
     }
 
     draw(): void {
-        this.playGround.appendChild(this.canvas.canvasElement);
-        this.bird.draw(this.canvas.canvasElement.getContext("2d")!);
-        this.pillarManager.draw(this.canvas.canvasElement.getContext("2d")!);
+        this.bird.draw(this.ctx);
+        this.pillarManager.draw(this.ctx);
     }
 
     start(): void {
@@ -50,7 +46,7 @@ export class Game{
         this.bird.update(deltaTime, this.gravity);
         this.checkBirdCollision();
 
-        this.canvas.cleanCanvas();
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.draw();
 
         if(!this._gameOver) requestAnimationFrame(this.gameLoop);
@@ -101,15 +97,7 @@ export class Game{
     }
       
     checkBirdCollision(): void {
-        if (
-            this.bird.birdY <= 0
-        ) {
-           this.gameOver();
-        }
-        
-        if (
-            this.bird.birdY + this.bird.birdHeight >= this.canvas.canvasHeight
-        ) {
+        if (this.bird.birdY + this.bird.birdHeight >= this.ctx.canvas.height) {
             this.gameOver();
         }
     }
