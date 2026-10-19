@@ -13,3 +13,43 @@ body {
     border: 1px solid red;
     position: relative;
 }
+
+#game-over-scene, #start-game-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background-color: "rgba(0, 0, 0, 0.5)";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-over-scene[hidden], #start-game-scene[hidden]{
+    display: none;
+}
+
+#restart-btn {
+    padding: 12px 32px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #e63946;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #a4161a;
+    height: 50px;
+}
+
+#start-btn {
+    padding: 12px 32px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: green;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 0 green;
+    height: 50px;
+}
