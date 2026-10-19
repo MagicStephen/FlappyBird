@@ -33,8 +33,7 @@ export class Bird {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        console.log(this._velocity);
-
+        
         const angle = Math.max(
             this.minAngle, 
             Math.min(this._velocity * this.maxAngle / - this.jumpForce, this.maxAngle)

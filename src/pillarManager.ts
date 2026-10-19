@@ -16,7 +16,6 @@ export class PillarManager{
     checkCollide(x: number, y: number, width: number, height: number): boolean {
         const pillar = this.pillars[this.nextIdx];
 
-        // top/bottom bird boundaries
         if (
             x + width >= pillar.x && y <= pillar.gapY - pillar.gap / 2 ||
             x + width >= pillar.x && y + height >= pillar.gapY + pillar.gap / 2
@@ -27,11 +26,12 @@ export class PillarManager{
         return false;
     }
 
-    checkPastPillar(x: number, width: number): boolean {
+    checkPastPillar(x: number): boolean {
+        const pillar = this.pillars[this.nextIdx];
 
-        if(x - width/2 > this.pillars[this.nextIdx].x + this.pillars[this.nextIdx].width/2){
+        if (x > pillar.x + pillar.width) {
             this.nextIdx++;
-            return true; 
+            return true;
         }
 
         return false;

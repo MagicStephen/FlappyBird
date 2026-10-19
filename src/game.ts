@@ -23,13 +23,24 @@ export class Game{
         document.getElementById("start-btn")!.onclick = () => this.start();
         document.getElementById("restart-btn")!.onclick = () => this.restart();
 
-        document.addEventListener("keydown", this.keyboardEventHandler.bind(this));
+        this.initControls();
         this.draw();
+    }
+
+    initControls(): void {   
+        document.addEventListener("keydown", (e) => { if (e.code === "Space") this.bird.jump();});
+        this.ctx.canvas.addEventListener("pointerdown", () => this.bird.jump());
     }
 
     draw(): void {
         this.bird.draw(this.ctx);
         this.pillarManager.draw(this.ctx);
+
+        this.ctx.font = "bold 48px sans-serif";
+        this.ctx.fillStyle = "white";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "top";
+        this.ctx.fillText(String(this.score), this.ctx.canvas.width / 2, 20);
     }
 
     start(): void {
@@ -54,18 +65,10 @@ export class Game{
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.draw();
 
-        this.drawScore();
-
         this.lastTime = currentTime;
         if(!this._gameOver) requestAnimationFrame(this.gameLoop);
     };
 
-    keyboardEventHandler(event: KeyboardEvent): void {
-        if (event.code === "Space") {
-            this.bird.jump();
-        }
-    }
-      
     checkBirdCollision(): void {
         if (this.bird.birdY + this.bird.birdHeight >= this.ctx.canvas.height) {
             this.gameOver();
@@ -75,14 +78,7 @@ export class Game{
         }
     }
 
-    drawScore(): void{
-        this.ctx.font = "bold 48px sans-serif";
-        this.ctx.fillStyle = "white";
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "top";
-        this.ctx.fillText(String(this.score), this.ctx.canvas.width / 2, 20);
-    }
-
+    /* */
     gameOver(): void{
         this._gameOver = true;
         document.getElementById("game-over-scene")!.hidden = false;
